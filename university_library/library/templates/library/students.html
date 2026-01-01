@@ -1,0 +1,24 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Студенти{% endblock %}
+
+{% block content %}
+<h2>Список студентів</h2>
+
+<table>
+    <tr>
+        <th>Імʼя</th>
+        <th>Прізвище</th>
+        <th>Email</th>
+        <th>Група</th>
+    </tr>
+    {% for student in students %}
+    <tr>
+        <td>{{ student.first_name }}</td>
+        <td>{{ student.last_name }}</td>
+        <td>{{ student.email }}</td>
+        <td>{{ student.group.group_number }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

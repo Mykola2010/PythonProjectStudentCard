@@ -1,0 +1,42 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Взяття книг{% endblock %}
+
+{% block content %}
+<h2>Процес взяття книг</h2>
+
+<table>
+    <tr>
+        <th>Студент</th>
+        <th>Email</th>
+        <th>Номер бібліотечної карти</th>
+        <th>Книга</th>
+        <th>Дата взяття</th>
+        <th>Бібліотекар</th>
+    </tr>
+
+    {% for borrowing in borrowings %}
+    <tr>
+        <td>
+            {{ borrowing.library_card.student.last_name }}
+            {{ borrowing.library_card.student.first_name }}
+        </td>
+        <td>
+            {{ borrowing.library_card.student.email }}
+        </td>
+        <td>
+            {{ borrowing.library_card.card_number }}
+        </td>
+        <td>
+            {{ borrowing.literature.title }}
+        </td>
+        <td>
+            {{ borrowing.borrow_date }}
+        </td>
+        <td>
+            {{ borrowing.librarian_full_name }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
