@@ -1,0 +1,25 @@
+{% extends 'library/base.html' %}
+{% load static %}
+
+{% block title %}Бібліотекарі{% endblock %}
+
+{% block content %}
+<h2>Бібліотекарі</h2>
+
+<div class="librarians-container">
+{% for librarian in librarians %}
+    <div class="librarian-card">
+        {% if librarian.photo %}
+            <img src="{{ librarian.photo.url }}" alt="{{ librarian.first_name }}" class="librarian-photo">
+        {% else %}
+            <img src="{% static 'library/img/default-profile.png' %}" alt="No Photo" class="librarian-photo">
+        {% endif %}
+        <h3>{{ librarian.first_name }} {{ librarian.last_name }}</h3>
+        <p>Народився: {{ librarian.birth_date }}</p>
+        <p>Відділ: {{ librarian.department.name }}</p>
+        <p>Телефон: {{ librarian.phone }}</p>
+        <p>Email: {{ librarian.email }}</p>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

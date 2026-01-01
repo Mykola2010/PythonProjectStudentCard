@@ -1,5 +1,39 @@
 from django.db import models
 
+class LibraryDepartment(models.Model):
+    name = models.CharField(max_length=100)
+    room_number = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
+
+
+class Librarian(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    birth_date = models.DateField(null=True, blank=True)
+    phone = models.CharField(max_length=20, blank=True)
+    email = models.EmailField(blank=True)
+    department = models.ForeignKey(
+        LibraryDepartment,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="librarians"
+    )
+    photo = models.ImageField(upload_to='librarians_photos/', null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.last_name} {self.first_name}"
+
+
+
+class BookTag(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
 class StudentGroup(models.Model):
     group_number = models.CharField(max_length=10, unique=True)
     slogan = models.CharField(max_length=255, blank=True)
@@ -48,8 +82,15 @@ class Literature(models.Model):
     publication_date = models.DateField()
     publication_year = models.PositiveIntegerField()
 
+    tags = models.ManyToManyField(
+        BookTag,
+        blank=True,
+        related_name="books"
+    )
+
     def __str__(self):
         return self.title
+
 
 
 class BookBorrowing(models.Model):
@@ -59,15 +100,19 @@ class BookBorrowing(models.Model):
         related_name="borrowings"
     )
 
-
     literature = models.ForeignKey(
         Literature,
         on_delete=models.CASCADE,
         related_name="borrowings"
     )
 
+    librarian = models.OneToOneField(
+        Librarian,
+        on_delete=models.SET_NULL,
+        null=True
+    )
+
     borrow_date = models.DateField()
-    librarian_full_name = models.CharField(max_length=150)
 
     def __str__(self):
         return f"{self.library_card} → {self.literature}"

@@ -1,0 +1,17 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+<h2>Книги та теги</h2>
+
+{% for book in books %}
+<p>
+    <strong>{{ book.title }}</strong><br>
+    Теги:
+    {% for tag in book.tags.all %}
+        {{ tag.name }}
+    {% empty %}
+        немає
+    {% endfor %}
+</p>
+{% endfor %}
+{% endblock %}

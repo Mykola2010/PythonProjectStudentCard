@@ -1,9 +1,12 @@
 from django.shortcuts import render
-from .models import Student, Literature, BookBorrowing
+from .models import Student, Literature, BookBorrowing, Librarian, LibraryDepartment
+
+def home_view(request):
+    return render(request, 'library/base.html')
 
 def students_view(request):
     return render(request, 'library/students.html', {
-        'students': Student.objects.all()
+        'students': Student.objects.select_related('group').all()
     })
 
 def literature_view(request):
@@ -19,4 +22,17 @@ def borrowings_view(request):
         )
     })
 
+def librarians_view(request):
+    return render(request, 'library/librarians.html', {
+        'librarians': Librarian.objects.select_related('department')
+    })
 
+def departments_view(request):
+    return render(request, 'library/departments.html', {
+        'departments': LibraryDepartment.objects.all()
+    })
+
+def tags_view(request):
+    return render(request, 'library/tags.html', {
+        'books': Literature.objects.prefetch_related('tags')
+    })
